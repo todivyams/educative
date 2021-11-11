@@ -16,33 +16,50 @@ Explanation: Subarray with maximum sum is [3, 4].
 
 """
 
-##from itertools import combinations
-##import time
-##
-##start = time.time()
-##def max_sub_arr(arr,k):
-##    max_sum = arr[0]
-##    for item in list(combinations(arr,k)):
-##        if max_sum < sum(item):
-##           max_sum, max_sub = sum(item), item
-##    print(max_sum, item)
-##
-##max_sub_arr([1,2,3,4,2,3,4],3)
-##print("Total time taken: ",time.time()-start)
-
+from itertools import combinations
 import unittest
 import time
+
 start = time.time()
 def max_sub_array_of_size_k(arr,k):
-  arr.sort()
-  max_sum = sum(arr[-k:])
-  return max_sum
+    arr_len = len(arr)
+    if k> arr_len:
+        print ("Error")
+        return
+
+    max_sum = arr[0]
+    for ind in range(1,k):
+        start = ind
+        limit = start+k
+        while limit <= arr_len:
+            if sum(arr[start:limit]) > max_sum:
+                max_sum = sum(arr[start:limit])
+            start += k
+            limit += k
+    return max_sum
+
+#max_sub_array_of_size_k([2, 1, 5, 1, 3, 2], 3)   
 
 class TestMaxSubArr(unittest.TestCase):
     def test_1(self):
-        self.assertEqual(max_sub_array_of_size_k([2, 1, 5, 1, 3, 2], 3),10)
+        self.assertEqual(max_sub_array_of_size_k([2, 1, 5, 1, 3, 2], 3),9)
     def test_2(self):
-        self.assertEqual(max_sub_array_of_size_k([2, 3, 4, 1, 5], 2),9)
+        self.assertEqual(max_sub_array_of_size_k([2, 3, 4, 1, 5], 2),7)
+print("Total time taken: ",time.time()-start)
+
+##import unittest
+##import time
+##start = time.time()
+##def max_sub_array_of_size_k(arr,k):
+##  arr.sort()
+##  max_sum = sum(arr[-k:])
+##  return max_sum
+##
+##class TestMaxSubArr(unittest.TestCase):
+##    def test_1(self):
+##        self.assertEqual(max_sub_array_of_size_k([2, 1, 5, 1, 3, 2], 3),10)
+##    def test_2(self):
+##        self.assertEqual(max_sub_array_of_size_k([2, 3, 4, 1, 5], 2),9)
 
 if __name__ == '__main__':
     unittest.main(verbosity=3)
